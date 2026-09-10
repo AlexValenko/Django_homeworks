@@ -13,8 +13,6 @@ def contacts(request):
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
-        print(
-            f'Получена обратная связь от {name} ({phone}). Текст сообщения "{message}"'
-        )
+        print(f'Получена обратная связь от {name} ({phone}). Текст сообщения "{message}"')
         return HttpResponse(f"Спасибо, {name}! сообщение получено.")
     return render(request, "contacts.html")
