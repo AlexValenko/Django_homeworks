@@ -1,0 +1,119 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "prod_name": "Теодолит Т-30",
+        "description": "Точность 30 секунд",
+        "prod_image": "",
+        "category": 1,
+        "price": "32527.40",
+        "created_at": "2026-09-10T09:55:31.868Z",
+        "updated_at": "2026-09-10T09:55:31.868Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "prod_name": "Теодолит Т-5",
+        "description": "Точность 5 секунд",
+        "prod_image": "",
+        "category": 1,
+        "price": "122333.50",
+        "created_at": "2026-09-10T09:57:48.559Z",
+        "updated_at": "2026-09-10T09:57:48.559Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "prod_name": "Теодолит Т-2",
+        "description": "Точность 2 секунды",
+        "prod_image": "",
+        "category": 1,
+        "price": "522333.50",
+        "created_at": "2026-09-10T09:58:50.706Z",
+        "updated_at": "2026-09-10T09:58:50.706Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "prod_name": "Нивелир Н-3",
+        "description": "Точный оптический с контактным уровнем",
+        "prod_image": "",
+        "category": 2,
+        "price": "25500.55",
+        "created_at": "2026-09-10T10:11:59.731Z",
+        "updated_at": "2026-09-10T10:48:19.733Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "prod_name": "Нивелир Н-05",
+        "description": "Высокоточный оптический с контактным уровнем",
+        "prod_image": "",
+        "category": 2,
+        "price": "530000.00",
+        "created_at": "2026-09-10T10:12:55.675Z",
+        "updated_at": "2026-09-10T10:12:55.675Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "prod_name": "Нивелир Sokkia sdl30",
+        "description": "Точный цифровой нивелир",
+        "prod_image": "images/sokkia-sdl30-1_xEYB4MW.jpg",
+        "category": 2,
+        "price": "653000.00",
+        "created_at": "2026-09-10T11:57:45.694Z",
+        "updated_at": "2026-09-10T11:57:45.694Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+        "prod_name": "Электронный тахеометр Sokkia SET 630",
+        "description": "Технический тахеометр 6\"",
+        "prod_image": "",
+        "category": 3,
+        "price": "350000.00",
+        "created_at": "2026-09-10T12:30:02.550Z",
+        "updated_at": "2026-09-10T12:30:02.550Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+        "prod_name": "Тахеометр Sokkia CX5",
+        "description": "Технический тахеометр 5\"",
+        "prod_image": "",
+        "category": 3,
+        "price": "800000.00",
+        "created_at": "2026-09-10T12:32:08.887Z",
+        "updated_at": "2026-09-10T12:32:08.887Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 10,
+    "fields": {
+        "prod_name": "Тахеометр Sokkia FX101",
+        "description": "Инженерный прибор высокоточный 1\"",
+        "prod_image": "",
+        "category": 3,
+        "price": "2200000.00",
+        "created_at": "2026-09-10T12:33:26.047Z",
+        "updated_at": "2026-09-10T12:33:26.047Z"
+    }
+}
+]

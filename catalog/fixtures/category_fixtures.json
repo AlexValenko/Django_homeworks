@@ -1,0 +1,26 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "category_name": "Теодолиты",
+        "description": "Теодолиты оптические и электронные"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "category_name": "Нивелиры",
+        "description": "Нивелиры жлектронные и оптические"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "category_name": "Тахеометры",
+        "description": "Электронные тахеометры инженерные и технические"
+    }
+}
+]
