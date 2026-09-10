@@ -1,9 +1,17 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from .models import Product
 
 
 def home(request):
     """Функция для отправки домашней страницы"""
+
+    latest_products = Product.objects.order_by('created_at')[:5]
+    print("Топ-5 последних товаров")
+    if latest_products:
+        for product in latest_products:
+            print(f'Товар: {product.prod_name}, Цена: {product.price}, Дата создания: {product.created_at}')
+
     return render(request, "home.html")
 
 
