@@ -66,7 +66,7 @@
 },
 {
     "model": "catalog.product",
-    "pk": 7,
+    "pk": 6,
     "fields": {
         "prod_name": "Нивелир Sokkia sdl30",
         "description": "Точный цифровой нивелир",
@@ -79,7 +79,7 @@
 },
 {
     "model": "catalog.product",
-    "pk": 8,
+    "pk": 7,
     "fields": {
         "prod_name": "Электронный тахеометр Sokkia SET 630",
         "description": "Технический тахеометр 6\"",
@@ -92,7 +92,7 @@
 },
 {
     "model": "catalog.product",
-    "pk": 9,
+    "pk": 8,
     "fields": {
         "prod_name": "Тахеометр Sokkia CX5",
         "description": "Технический тахеометр 5\"",
@@ -105,7 +105,7 @@
 },
 {
     "model": "catalog.product",
-    "pk": 10,
+    "pk": 9,
     "fields": {
         "prod_name": "Тахеометр Sokkia FX101",
         "description": "Инженерный прибор высокоточный 1\"",

@@ -23,9 +23,7 @@ class Category(models.Model):
 class Product(models.Model):
     """Модель для описания продаваемых товаров"""
 
-    prod_name = models.CharField(
-        max_length=150, verbose_name="Наименование", help_text="Наименование продукта"
-    )
+    prod_name = models.CharField(max_length=150, verbose_name="Наименование", help_text="Наименование продукта")
     description = models.TextField(null=True, blank=True, verbose_name="Описание", help_text="Описание продукта")
     prod_image = models.ImageField(upload_to="images/", verbose_name="Изображение товара", null=True, blank=True)
     category = models.ForeignKey(
