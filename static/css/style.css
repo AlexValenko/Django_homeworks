@@ -1,0 +1,49 @@
+@charset "UTF-8";/*!
+
+.product-image {
+  width: 100%;
+  height: 225px;                 /* фиксированная высота карточки */
+  object-fit: cover;            /* ключевое свойство: обрезает лишнее, сохраняет пропорции */
+  display: block;                /* убирает лишние отступы у img */
+}
+
+.placeholder-image {
+  width: 100%;
+  height: 225px;
+  background-color: #55595c;
+  color: #eceeef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+
+/* Контейнер для картинки, чтобы задать ей фиксированную высоту */
+.img-wrapper {
+    height: 225px; /* Фиксированная высота зоны картинки */
+    overflow: hidden; /* Обрезает всё, что вылезает */
+    position: relative;
+}
+
+/* Стили для реальной картинки */
+.product-image {
+    width: 100%;
+    height: 100%; /* Растягивает картинку на весь блок .img-wrapper */
+    object-fit: cover; /* Ключевое свойство: не сплющивает, обрезает лишнее */
+    display: block;
+}
+
+/* Стили для заглушки "Нет фото" */
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    background-color: #55595c; /* Цвет фона как у старой заглушки */
+    color: #eceeef;
+    font-size: 16px;
+    /* d-flex, align-items-center, justify-content-center уже есть в HTML,
+       но можно продублировать здесь для надежности */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

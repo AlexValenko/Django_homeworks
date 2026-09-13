@@ -6,15 +6,13 @@ from .models import Product
 
 
 def home(request):
-    """Функция для отправки домашней страницы"""
+    """Контроллер для отображения домашней страницы - отображает последние 6 добавленных товаров"""
 
-    latest_products = Product.objects.order_by('created_at')[:5]
-    print("Топ-5 последних товаров")
+    latest_products = Product.objects.order_by('created_at')[:6]
+    context = {"products" : latest_products}
+
     if latest_products:
-        for product in latest_products:
-            print(f'Товар: {product.prod_name}, Цена: {product.price}, Дата создания: {product.created_at}')
-
-    return render(request, "home.html")
+        return render(request, "home.html", context=context)
 
 
 def contacts(request):
