@@ -1,3 +1,5 @@
+from itertools import product
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Product
@@ -24,3 +26,10 @@ def contacts(request):
         print(f'Получена обратная связь от {name} ({phone}). Текст сообщения "{message}"')
         return HttpResponse(f"Спасибо, {name}! сообщение получено.")
     return render(request, "contacts.html")
+
+def product_details(request, pk):
+    """Контроллер для отображения подробной информации о товаре"""
+    current_product = Product.objects.get(pk=pk)
+    context = {'current_product' : current_product}
+    return render(request, 'product_details.html', context=context)
+
