@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %} {{current_product.prod_name}} {% endblock %}
+
+{% block content %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">{{current_product.prod_name}}</h1>
+    <p class="lead">Информация о товаре</p>
+</div>
+
+<div class="container">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h4 class="my-0">{{current_product.prod_name}}</h4>
+        </div>
+        <div class="img-wrapper">
+            {% if current_product.prod_image %}
+            <img src="{{ current_product.prod_image.url }}"
+                 alt="{{ current_product.prod_name }}"
+                 class="product-image"
+                 loading="lazy">
+            {% else %}
+            <div class="placeholder-image d-flex align-items-center justify-content-center">
+                <span class="text-white">Нет фото</span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title mb-4">Категория: {{current_product.category}}</h5>
+            <p class="card-text">Описание: {{current_product.description}} </p>
+            <p class="card-text">Цена: {{current_product.price}} руб.</p>
+            <p class="card-text"><small class="text-body-secondary">Обновлено: {{current_product.updated_at|date:'d M
+                Y'}}</small></p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
