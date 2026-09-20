@@ -1,18 +1,19 @@
-from itertools import product
-
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.views.generic import ListView
 
 from .models import Category, Product
 
 
-def home(request):
-    """Контроллер для отображения домашней страницы - отображает последние 6 добавленных товаров"""
+class HomeListView(ListView):
+    """Контроллер для отображения домашней страницы CBV - отображает последние 6 добавленных товаров"""
+    model = Product
+    template_name = "home.html"
+    context_object_name = 'products'
 
-    latest_products = Product.objects.order_by("-created_at")[:6]
-    context = {"products": latest_products}
-    return render(request, "home.html", context=context)
+    def get_queryset(self):
+        return Product.objects.order_by("-created_at")[:6]
 
 
 def contacts(request):
