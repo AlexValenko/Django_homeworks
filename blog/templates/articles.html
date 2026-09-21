@@ -1,0 +1,20 @@
+{% extends 'base_blog.html' %}
+
+{% block title %}статьи{% endblock %}
+
+{% block content %}
+
+<div class="pricing-header px-3 py-2 pt-md-1 pb-md-2 mx-auto text-center">
+    <h1 class="display-4">Статьи</h1>
+    <p class="lead">Ниже представлены все имеющиеся статьи</p>
+</div>
+
+<div class="album py-2 bg-body-tertiary">
+    <div class="container">
+
+        {% include 'blog_articles.html' %}
+
+    </div>
+</div>
+
+{% endblock %}
