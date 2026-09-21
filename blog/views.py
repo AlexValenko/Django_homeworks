@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
@@ -31,6 +31,7 @@ class BlogArticlesListView(ListView):
 
 class ArticleDetailView(DetailView):
     """Класс CBV для отображения одной статьи подробно"""
+
     model = Blog
     template_name = "article_details.html"
     context_object_name = "article"
@@ -45,6 +46,7 @@ class ArticleDetailView(DetailView):
 
 class ArticleCreateView(CreateView):
     """Класс CBV для создания новой статьи по форме"""
+
     model = Blog
     fields = ["title", "content", "is_published", "preview"]
     template_name = "article_form.html"
@@ -55,17 +57,19 @@ class ArticleCreateView(CreateView):
 
 class ArticleUpdateView(UpdateView):
     """Класс CBV для редактирования существующей статьи в форме"""
+
     model = Blog
     fields = ["title", "content", "is_published", "preview"]
     template_name = "article_form.html"
 
     def get_success_url(self):
         """После редактирования статьи - возвращает на страницу с этой статьей"""
-        return reverse("blog:article_details", args=[self.kwargs.get('pk')])
+        return reverse("blog:article_details", args=[self.kwargs.get("pk")])
 
 
 class ArticleDeliteView(DeleteView):
     """Класс CBV для удаления статьи"""
+
     model = Blog
     template_name = "blog_confirm_delete.html"
 

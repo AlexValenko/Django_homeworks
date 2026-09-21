@@ -25,18 +25,17 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <!-- Заголовок -->
+
                 <div class="mb-3">
-                    <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок статьи</label>
+                    <label for="{{ form.title.id_for_label }}" class="form-label my-2 fw-bold">Заголовок статьи:</label>
+                    <div class="my-1 mb-1"></div>
                     {{ form.title }}
                     {% if form.title.errors %}
                     <div class="text-danger small">{{ form.title.errors }}</div>
                     {% endif %}
                 </div>
 
-                <!-- Статус публикации (чекбокс) -->
-                <div class="mb-3 form-check">
-                    <!-- Django сам добавит name/id, мы только контролируем классы и label -->
+                <div class="mb-3 my-3 form-check">
                     {{ form.is_published }}
                     <label for="{{ form.is_published.id_for_label }}" class="form-check-label">
                         Статья опубликована
@@ -46,30 +45,44 @@
                     {% endif %}
                 </div>
 
-                <!-- Контент -->
-                <div class="mb-3">
-                    <label for="{{ form.content.id_for_label }}" class="form-label">Содержание статьи</label>
-                    {{ form.content }}
+                <div class="mb-4">
+                    <label for="{{ form.content.id_for_label }}" class="form-label fw-bold">Содержание статьи</label>
+
+                    <div class="mt-1">
+                        {{ form.content }}
+                    </div>
+
                     {% if form.content.errors %}
-                    <div class="text-danger small">{{ form.content.errors }}</div>
+                    <div class="text-danger small mt-2">
+                        {{ form.content.errors }}
+                    </div>
                     {% endif %}
                 </div>
 
-                <!-- Превью -->
-                <div class="mb-3">
-                    <label for="{{ form.preview.id_for_label }}" class="form-label">Изображение (превью)</label>
-                    {{ form.preview }}
+
+                <div class="mb-4">
+                    <label for="{{ form.preview.id_for_label }}" class="form-label fw-bold">
+                        Загрузите изображение (превью)
+                    </label>
+
+                    <div class="mt-1">
+                        {{ form.preview }}
+                    </div>
                     {% if form.preview.errors %}
-                    <div class="text-danger small">{{ form.preview.errors }}</div>
+                    <div class="text-danger small mt-2">{{ form.preview.errors }}</div>
                     {% endif %}
+
+
                     {% if object and object.preview %}
-                    <p class="small text-muted mt-2">
+                    <p class="small text-muted mt-3">
                         Текущее изображение:
-                        <a href="{{ object.preview.url }}" target="_blank" class="text-decoration-none">{{
-                            object.preview.name }}</a>
+                        <a href="{{ object.preview.url }}" target="_blank" class="text-decoration-none text-primary">
+                            {{ object.preview.name }}
+                        </a>
                     </p>
                     {% endif %}
                 </div>
+
 
                 <div class="d-flex gap-2 mt-3">
 
