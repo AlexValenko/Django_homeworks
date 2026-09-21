@@ -1,14 +1,13 @@
 {% extends 'base_blog.html' %}
 
 {% block title %}
-{% if object %}Редактировать статью{% else %}Новая статья{% endif %}
+    {% if object %}Удалить статью «{{ object.title }}»{% else %}Ошибка удаления{% endif %}
 {% endblock %}
 
 {% block content %}
-<div class="pricing-header px-3 py-3 pt-md-1 pb-md-4 mx-auto text-center">
-    <h1 class="display-5">Удалить статью
-    </h1>
-    <p class="lead">Форма для заполнения данных о статье. Работает в режиме отладки</p>
+<div class="pricing-header px-3 py-2 pt-md-1 pb-md-2 mx-auto text-center">
+    <h1 class="display-5">Удаление статьи</h1>
+    <p class="lead">Вы уверены, что хотите удалить эту статью? Это действие нельзя отменить.</p>
 </div>
 
 <div class="container">
@@ -17,21 +16,20 @@
             <h4 class="my-1">Подтверждение удаления</h4>
         </div>
         <div class="card-body">
-            <form method="post" enctype="multipart/form-data">
+            <form method="post">
+                {% csrf_token %}
 
-
-                <!-- Заголовок -->
-                <div class="mb-3">
-                    <div class="card">
-                        <p class="card-text">Вы действительно хотите удалить статью {{object.title}} ?</p>
-                    </div>
-                </div>
-                <div class="card-body">
-                    {% csrf_token %}
+                <div class="mb-4">
+                    <p class="fs-5 text-danger fw-bold">
+                        Вы действительно хотите удалить статью «{{ object.title }}»?
+                    </p>
+                    <p class="text-muted">После удаления все данные будут безвозвратно утеряны.</p>
                 </div>
 
-                <a class="btn btn-primary" href="/articles/">Отменить</a>
-                <button type="submit" class="btn btn-primary">Удалить</button>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url 'blog:articles' %}" class="btn btn-secondary me-md-2 mb-2 mb-md-0">Отмена</a>
+                    <button type="submit" class="btn btn-danger">Удалить навсегда</button>
+                </div>
             </form>
         </div>
     </div>

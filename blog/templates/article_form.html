@@ -71,7 +71,21 @@
                     {% endif %}
                 </div>
 
-                <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Сохранить изменения</button>
+                <div class="d-flex gap-2 mt-3">
+
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        Сохранить изменения
+                    </button>
+
+                    {% if object %}
+                    <a href="{% url 'blog:article_delete' object.pk %}"
+                       class="btn btn-outline-danger flex-shrink-0">
+                        Удалить
+                    </a>
+                    {% endif %}
+
+                </div>
+
             </form>
         </div>
     </div>

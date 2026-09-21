@@ -17,7 +17,6 @@ urlpatterns = [
     path("editor/<int:pk>", ArticleUpdateView.as_view(), name="article_edit"),
     path("editor/<int:pk>/delete/", ArticleDeliteView.as_view(), name="article_delete"),
     path("articles/", BlogArticlesListView.as_view(), name="articles"),
-    path("blog/", BlogListView.as_view(), name="blog"),
-    # path("contacts/", ContactsFormView.as_view(), name="contacts"),
+    path("", BlogListView.as_view(), name="blog"),
     path("article_details/<int:pk>", ArticleDetailView.as_view(), name="article_details"),
 ]
