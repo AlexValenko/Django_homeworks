@@ -13,6 +13,13 @@
     <div class="container">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            <!-- Для отладки удалить позже-->
+            <p>Всего товаров в queryset: {{ page_obj.paginator.count }}</p>
+            <p>Текущая страница: {{ page_obj.number }}</p>
+            <p>На странице товаров: {{ page_obj.object_list|length }}</p>
+            <!-- Для отладки  -->
+
             {% for product in page_obj.object_list %}
             <div class="col d-flex">
                 <div class="card shadow-sm h-100 w-100">

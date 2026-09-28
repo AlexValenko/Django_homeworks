@@ -1,66 +1,63 @@
-from itertools import product
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, FormView, ListView
+from django.views.generic.edit import CreateView
 
-from django.core.paginator import Paginator
-from django.http import HttpResponse
-from django.shortcuts import redirect, render
-
+from .forms import FeedbackForm
 from .models import Category, Product
 
 
-def home(request):
-    """Контроллер для отображения домашней страницы - отображает последние 6 добавленных товаров"""
+class HomeListView(ListView):
+    """Класс CBV для отображения домашней страницы - отображает последние 6 добавленных товаров"""
 
-    latest_products = Product.objects.order_by("-created_at")[:6]
-    context = {"products": latest_products}
-    return render(request, "home.html", context=context)
+    model = Product
+    template_name = "home.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        return Product.objects.order_by("-created_at")[:6]
 
 
-def contacts(request):
-    """Метод для отправки страницы Контакты, и получения формы обратной связи"""
-    if request.method == "POST":
-        name = request.POST.get("name")
-        phone = request.POST.get("phone")
-        message = request.POST.get("message")
+class ContactsFormView(FormView):
+    """Класс CBV для отправки страницы Контакты, и получения формы обратной связи"""
+
+    template_name = "contacts.html"
+    form_class = FeedbackForm
+    success_url = reverse_lazy("catalog:home")  # Перенаправление на домашнюю страницу
+
+    def form_valid(self, form):
+        name = form.cleaned_data["name"]
+        phone = form.cleaned_data["phone"]
+        message = form.cleaned_data["message"]
         print(f'Получена обратная связь от {name} ({phone}). Текст сообщения "{message}"')
-        return HttpResponse(f"Спасибо, {name}! сообщение получено.")
-    return render(request, "contacts.html")
+        return super().form_valid(form)
 
 
-def product_details(request, pk):
-    """Контроллер для отображения подробной информации о товаре"""
-    current_product = Product.objects.get(pk=pk)
-    context = {"current_product": current_product}
-    return render(request, "product_details.html", context=context)
+class ProductDetailView(DetailView):
+    """Класс для отображения подробной информации о товаре product_details"""
+
+    model = Product
+    template_name = "product_details.html"
 
 
-def add_product(request):
-    """Контроллер для заполнения данных о новом товаре"""
-    categories = Category.objects.all()
+class ProductCreateView(CreateView):
+    """Класс для заполнения данных о новом товаре"""
 
-    if request.method == "POST":
-        Product.objects.create(
-            prod_name=request.POST.get("prod_name"),
-            description=request.POST.get("description"),
-            category_id=request.POST.get("category"),
-            price=request.POST.get("price"),
-            prod_image=request.FILES.get("prod_image"),
-        )
-        print(f"Товар {request.POST.get('prod_name')} успешно добавлен в базу")
-        return redirect("/home/")
+    model = Product
+    fields = ["prod_name", "description", "category", "price", "prod_image"]
+    template_name = "add_product.html"
+    success_url = reverse_lazy("catalog:home")
+    context_object_name = "categories"
 
-    context = {"categories": categories}
-    return render(request, "add_product.html", context=context)
+    def get_context_data(self, **kwargs):
+        context = Category.objects.all()
+        return {"categories": context}
 
 
-def products(request):
-    """Контроллер для вывода страницы с товарами (весь каталог товаров)"""
-    all_products = Product.objects.all().order_by("category")
+class ProductListView(ListView):
+    """Класс - контроллер для вывода страницы с товарами (весь каталог товаров)"""
 
-    paginator = Paginator(all_products, 6)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        "page_obj": page_obj,
-    }
-    return render(request, "products.html", context=context)
+    model = Product
+    template_name = "products.html"
+    # context_object_name = "page_obj" # Я не понимаю почему, но оно работает, если строка закомментирована
+    ordering = "category__category_name"
+    paginate_by = 9
