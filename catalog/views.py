@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, FormView, ListView
 from django.views.generic.edit import CreateView
 
-from .forms import FeedbackForm
+from .forms import FeedbackForm, ProductForm
 from .models import Category, Product
 
 
@@ -43,14 +43,9 @@ class ProductCreateView(CreateView):
     """Класс для заполнения данных о новом товаре"""
 
     model = Product
-    fields = ["prod_name", "description", "category", "price", "prod_image"]
-    template_name = "add_product.html"
+    form_class = ProductForm
+    template_name = "product_form.html"
     success_url = reverse_lazy("catalog:home")
-    context_object_name = "categories"
-
-    def get_context_data(self, **kwargs):
-        context = Category.objects.all()
-        return {"categories": context}
 
 
 class ProductListView(ListView):
@@ -58,6 +53,5 @@ class ProductListView(ListView):
 
     model = Product
     template_name = "products.html"
-    # context_object_name = "page_obj" # Я не понимаю почему, но оно работает, если строка закомментирована
     ordering = "category__category_name"
     paginate_by = 9
