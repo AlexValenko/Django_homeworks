@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, FormView, ListView
+from django.views.generic import DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import CreateView
 
 from .forms import FeedbackForm, ProductForm
@@ -42,6 +42,13 @@ class ProductDetailView(DetailView):
 class ProductCreateView(CreateView):
     """Класс для заполнения данных о новом товаре"""
 
+    model = Product
+    form_class = ProductForm
+    template_name = "product_form.html"
+    success_url = reverse_lazy("catalog:home")
+
+class ProductUpdateView(UpdateView):
+    """Класс для редактирования данных о товаре"""
     model = Product
     form_class = ProductForm
     template_name = "product_form.html"
