@@ -70,6 +70,7 @@ class ProductForm(forms.ModelForm):
             }
         )
 
+    # Валидация
     def clean_prod_name(self):
         """Метод для валидации названия продукта - не должно содержать запрещенных слов из STOP_PRODUCT_LIST"""
         prod_name = self.cleaned_data.get("prod_name")
@@ -78,3 +79,19 @@ class ProductForm(forms.ModelForm):
             if stop_word in lower_name:
                 raise ValidationError(message="Название продукта не должно содержать запрещённых слов.")
         return prod_name
+
+    def clean_description(self):
+        """Метод для валидации описания - не должно содержать запрещенных слов из STOP_PRODUCT_LIST"""
+        description = self.cleaned_data.get("description")
+        lower_description = description.strip().lower()
+        for stop_word in STOP_PRODUCT_LIST:
+            if stop_word in lower_description:
+                raise ValidationError(message="Описание не должно содержать запрещённых слов.")
+        return description
+
+    def clean_price(self):
+        """Метод для валидации цены товара > 0"""
+        price = self.cleaned_data.get("price")
+        if price < 0:
+            raise ValidationError(message="Цена товара должна быть положительным числом")
+        return price
