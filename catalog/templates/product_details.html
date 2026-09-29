@@ -36,8 +36,7 @@
                        class="btn btn-outline-primary flex-grow-1 me-2">На главную</a>
                     <a href="{% url 'catalog:edit_product' product.pk %}"
                        class="btn btn-outline-primary flex-grow-1 me-2">Редактировать</a>
-                    <!-- url 'catalog:product_delete' product.pk  -->
-                    <a href="#"
+                    <a href="{%url 'catalog:delete_product' product.pk%}"
                        class="btn btn-outline-danger flex-grow-1 me-2">Удалить</a>
                 </div>
             </div>
@@ -46,5 +45,8 @@
         </div>
 
     </div>
+    <div class="alert alert-dark mt-4" role="alert">
+    Для добавления нового товара воспользуйтесь <a href="catalog:add_product" class="alert-link">формой</a> и он появится в нашем каталоге.
+</div>
 </div>
 {% endblock %}

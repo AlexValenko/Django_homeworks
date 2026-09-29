@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-        {% if object %}
-        Редактировать товар
-        {% else %}
-        Добавить товар
-        {% endif %}
+{% if object %}
+Редактировать товар
+{% else %}
+Добавить товар
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -31,15 +31,24 @@
                 {{ form.as_p}}
                 {{ form.non_field_errors }}
 
-                <button type="submit" class="btn btn-primary">
+                <div class="btn-group w-100">
+                    <button type="submit" class="btn btn-outline-primary flex-grow-1 me-2">
+                        {% if object %}
+                        Сохранить
+                        {% else %}
+                        Создать
+                        {% endif %}
+                    </button>
+                    <a href="{% url 'catalog:home' %}"
+                       class="btn btn-outline-primary flex-grow-1 me-2">На главную</a>
                     {% if object %}
-                    Сохранить
-                    {% else %}
-                    Создать
+                    <a href="{%url 'catalog:delete_product' product.pk%}"
+                       class="btn btn-outline-danger flex-grow-1 me-2">Удалить</a>
                     {% endif %}
+                </div>
 
-                </button>
             </form>
+
         </div>
     </div>
 </div>

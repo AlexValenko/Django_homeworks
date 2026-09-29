@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %} Удалить товар {% endblock %}
+
+{% block content %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">{{product.prod_name}}</h1>
+    <p class="lead">Удалить товар</p>
+</div>
+
+<div class="container">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h4 class="my-0">{{product.prod_name}}</h4>
+        </div>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <p class="fs-5 text-danger fw-bold">
+                    Вы действительно хотите удалить товар «{{object.prod_name}}»?
+                </p>
+                <p class="text-muted">После удаления данные о товаре будут безвозвратно утеряны.</p>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'catalog:home' %}" class="btn btn-secondary me-md-2 mb-2 mb-md-0">Отмена</a>
+                <button type="submit" class="btn btn-danger">Удалить навсегда</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
