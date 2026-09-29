@@ -3,7 +3,7 @@ from django.views.generic import DetailView, FormView, ListView, UpdateView, Del
 from django.views.generic.edit import CreateView
 
 from .forms import FeedbackForm, ProductForm
-from .models import Category, Product
+from .models import Product
 
 
 class ProductDetailView(DetailView):

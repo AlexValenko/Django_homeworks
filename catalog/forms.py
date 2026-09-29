@@ -111,7 +111,7 @@ class ProductForm(forms.ModelForm):
                 f"Размер файла слишком большой. Максимальный размер — 5 МБ. "
                 f"Текущий размер: {filesizeformat(image.size)}"
             )
-        """При попытке загрузить файл не изображения, например doc - будет применена встроенная валидация модели 
+        """При попытке загрузить файл не изображения, например doc - будет применена встроенная валидация модели
         (prod_image = models.ImageField), и будет выведено другое сообщение об ошибке"""
         validator = FileExtensionValidator(
             allowed_extensions=ALLOWED_EXTENSIONS, message="Разрешены только файлы форматов JPG/JPEG или PNG."
