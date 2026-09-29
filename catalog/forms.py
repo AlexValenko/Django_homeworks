@@ -1,5 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
+from django.template.defaultfilters import filesizeformat
 
 from catalog.models import Product
 
@@ -14,6 +16,7 @@ STOP_PRODUCT_LIST = [
     "полиция",
     "радар",
 ]
+ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png"]
 
 
 class FeedbackForm(forms.Form):
@@ -95,3 +98,22 @@ class ProductForm(forms.ModelForm):
         if price < 0:
             raise ValidationError(message="Цена товара должна быть положительным числом")
         return price
+
+    def clean_prod_image(self):
+        """Валидация для изображения - проверка размера и расширения"""
+        image = self.cleaned_data.get("prod_image")
+        if not image:
+            return image
+
+        max_size = 5 * 1024 * 1024
+        if image.size > max_size:
+            raise ValidationError(
+                f"Размер файла слишком большой. Максимальный размер — 5 МБ. "
+                f"Текущий размер: {filesizeformat(image.size)}"
+            )
+        """При попытке загрузить файл не изображения, например doc - будет применена встроенная валидация модели 
+        (prod_image = models.ImageField), и будет выведено другое сообщение об ошибке"""
+        validator = FileExtensionValidator(
+            allowed_extensions=ALLOWED_EXTENSIONS, message="Разрешены только файлы форматов JPG/JPEG или PNG."
+        )
+        validator(image)
