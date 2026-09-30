@@ -16,7 +16,7 @@ STOP_PRODUCT_LIST = [
     "полиция",
     "радар",
 ]
-ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png"]
+ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png"]
 
 
 class FeedbackForm(forms.Form):
@@ -117,3 +117,4 @@ class ProductForm(forms.ModelForm):
             allowed_extensions=ALLOWED_EXTENSIONS, message="Разрешены только файлы форматов JPG/JPEG или PNG."
         )
         validator(image)
+        return image
