@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Авторизация{% endblock %}
+{% block content %}
+
+<div class="pricing-header px-3 py-3 pt-md-1 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Гео-товар</h1>
+    <p class="lead">Авторизация на сайте</p>
+</div>
+
+<div class="container">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h4 class="my-1">Войти на сайт</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ form.as_p}}
+                {{ form.non_field_errors }}
+
+                <div class="btn-group w-100">
+                    <button type="submit" class="btn btn-outline-primary flex-grow-1 me-2">
+                        Войти
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
