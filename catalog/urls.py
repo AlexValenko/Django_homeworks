@@ -5,10 +5,10 @@ from catalog.views import (
     ContactsFormView,
     HomeListView,
     ProductCreateView,
+    ProductDeleteView,
     ProductDetailView,
     ProductListView,
     ProductUpdateView,
-    ProductDeleteView,
 )
 
 app_name = CatalogConfig.name

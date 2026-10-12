@@ -1,35 +1,32 @@
+from django.contrib.auth import login
 from django.contrib.auth.views import LogoutView
-from django.shortcuts import render, redirect
+from django.core.mail import send_mail
 from django.urls import reverse_lazy
-from django.views import View
+from django.views.generic import CreateView
+
+from config.settings import EMAIL_HOST_USER
 
 from .forms import CustomUserCreationForm
 
 
-class UserRegisterView(View):
+class UserRegisterView(CreateView):
     """Контроллер для регистрации нового пользователя"""
 
     form_class = CustomUserCreationForm
     template_name = "register.html"
     success_url = reverse_lazy("users:login")
 
-    def get(self, request):
-        """Показывает пустую форму регистрации"""
-        form = self.form_class()
-        return render(request, self.template_name, {"form": form})
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        self.send_welcome_email(user.email)
+        return super().form_valid(form)
 
-    def post(self, request):
-        """Обрабатывает отправленную форму"""
-        form = self.form_class(
-            request.POST,
-            request.FILES,
-        )
-
-        if form.is_valid():
-            form.save()
-            return redirect(self.success_url)
-
-        return render(request, self.template_name, {"form": form})
+    def send_welcome_email(self, user_email):
+        subject = "Добро пожаловать в наш сервис"
+        message = "Спасибо, что зарегистрировались в нашем сервисе!"
+        recipient_list = [user_email]
+        send_mail(subject=subject, message=message, from_email=EMAIL_HOST_USER, recipient_list=recipient_list)
 
 
 class CustomLogoutView(LogoutView):

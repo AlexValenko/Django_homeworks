@@ -1,10 +1,9 @@
 from django.contrib.auth.views import LoginView
-
-from users.forms import CustomAuthenticationForm
-from users.views import UserRegisterView, CustomLogoutView
-
 from django.urls import path
+
 from users.apps import UsersConfig
+from users.forms import CustomAuthenticationForm
+from users.views import CustomLogoutView, UserRegisterView
 
 app_name = UsersConfig.name
 
