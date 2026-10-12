@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.conf.global_settings import LOGIN_URL
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -113,6 +114,7 @@ AUTH_USER_MODEL = "users.User"
 
 PHONENUMBER_DEFAULT_REGION = "RU"
 
+LOGIN_URL = "users:login"
 LOGIN_REDIRECT_URL = "/home/"
 # LOGOUT_REDIRECT_URL = "/home/"
 
