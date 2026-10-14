@@ -28,6 +28,7 @@ class FeedbackForm(forms.Form):
 
 
 class ProductForm(forms.ModelForm):
+    """Форма для создания/редактирования товара для продавца"""
     class Meta:
         model = Product
         exclude = [

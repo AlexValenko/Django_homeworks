@@ -34,6 +34,7 @@ class Product(models.Model):
         blank=True,
         verbose_name="Категория товара",
     )
+    is_published = models.BooleanField(default=False, verbose_name="Статус публикации", help_text="Товар опубликован?")
     price = models.DecimalField(
         max_digits=10, decimal_places=2, verbose_name="Цена товара", help_text="Цена товара", null=False, blank=False
     )
@@ -46,4 +47,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
-        ordering = ["prod_name", "price", "category", "created_at"]
+        ordering = ["prod_name", "-created_at"]
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product")
+        ]

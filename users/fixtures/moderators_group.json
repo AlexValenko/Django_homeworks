@@ -1,0 +1,20 @@
+[
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "moderators",
+    "permissions": [
+      [
+        "can_unpublish_product",
+        "catalog",
+        "product"
+      ],
+      [
+        "delete_product",
+        "catalog",
+        "product"
+      ]
+    ]
+  }
+}
+]
