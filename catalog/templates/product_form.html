@@ -44,7 +44,7 @@
                     </button>
                     <a href="{% url 'catalog:home' %}"
                        class="btn btn-outline-primary flex-grow-1 me-2">На главную</a>
-                    {% if object %}
+                    {% if object and perms.catalog.delete_product %}
                     <a href="{%url 'catalog:delete_product' product.pk%}"
                        class="btn btn-outline-danger flex-grow-1 me-2">Удалить</a>
                     {% endif %}

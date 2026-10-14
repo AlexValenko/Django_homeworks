@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.template.defaultfilters import filesizeformat
+from psutil import users
 
 from catalog.models import Product
 
@@ -37,8 +38,16 @@ class ProductForm(forms.ModelForm):
         ]
 
     # Стилизация
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, user=None, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
+
+        self.user = user
+
+        if not user or not (
+                user.is_superuser
+                or user.has_perm("catalog.can_unpublish_product")
+        ):
+            self.fields["is_published"].disabled = True
 
         self.fields["prod_name"].widget.attrs.update(
             {

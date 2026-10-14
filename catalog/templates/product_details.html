@@ -37,6 +37,8 @@
                     {% if user.is_authenticated %}
                     <a href="{% url 'catalog:edit_product' product.pk %}"
                        class="btn btn-outline-primary flex-grow-1 me-2">Редактировать</a>
+                    {% endif %}
+                    {% if perms.catalog.delete_product %}
                     <a href="{%url 'catalog:delete_product' product.pk%}"
                        class="btn btn-outline-danger flex-grow-1 me-2">Удалить</a>
                     {% endif %}
