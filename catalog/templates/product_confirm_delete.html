@@ -10,6 +10,7 @@
 </div>
 
 <div class="container">
+    {% if user.is_authenticated %}
     <div class="card shadow-sm mb-4">
         <div class="card-header">
             <h4 class="my-0">{{product.prod_name}}</h4>
@@ -32,6 +33,12 @@
             </div>
         </form>
     </div>
+    {% else %}
+    <div class="alert alert-dark mt-4" role="alert">
+        Вы можете удалять товары только после <a href="{% url 'users:login' %}" class="alert-link">регистрации на
+        сайте.</a>
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

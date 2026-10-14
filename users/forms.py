@@ -1,0 +1,58 @@
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+from users.models import User
+
+
+class StyleMixin:
+    """Общая стилизация полей форм Bootstrap."""
+
+    field_styles = {}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field_name, placeholder in self.field_styles.items():
+            if field_name in self.fields:
+                self.fields[field_name].widget.attrs.update(
+                    {
+                        "class": "form-control",
+                        "placeholder": placeholder,
+                    }
+                )
+
+
+class CustomUserCreationForm(StyleMixin, UserCreationForm):
+    """Форма регистрации пользователя."""
+
+    field_styles = {
+        "email": "Введите Email (обязательное поле)",
+        "phone_number": "Введите номер телефона (необязательно)",
+        "avatar": "Загрузите изображение (необязательно)",
+        "user_country": "Введите название вашей страны (необязательно)",
+        "first_name": "Введите ваше имя (необязательно)",
+        "last_name": "Введите вашу фамилию (необязательно)",
+        "password1": "Введите пароль",
+        "password2": "Повторите пароль",
+    }
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = (
+            "email",
+            "phone_number",
+            "avatar",
+            "user_country",
+            "first_name",
+            "last_name",
+            "password1",
+            "password2",
+        )
+
+
+class CustomAuthenticationForm(StyleMixin, AuthenticationForm):
+    """Форма авторизации пользователя."""
+
+    field_styles = {
+        "username": "Введите Email",
+        "password": "Введите пароль",
+    }
