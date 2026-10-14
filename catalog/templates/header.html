@@ -6,7 +6,9 @@
         <li class="nav-item"><a href="{% url 'catalog:home' %}" class="nav-link active" aria-current="page">Главная</a></li>
         <li class="nav-item"><a href="{% url 'catalog:products' %}" class="nav-link">Товары</a></li>
         <li class="nav-item"><a href="{% url 'catalog:contacts' %}" class="nav-link">О нас</a></li>
+
         {% if user.is_authenticated %}
+        <li class="nav-item"><a href="{% url 'users:profile_update' %}" class="nav-link">Мой профиль</a></li>
         <li class="nav-item">
             <form method="post" action="{% url 'users:logout' %}">
                 {% csrf_token %}
@@ -15,6 +17,7 @@
                 </button>
             </form>
         </li>
+
         {% else %}
         <li class="nav-item"><a href="{% url 'users:login' %}" class="nav-link">Вход</a></li>
         <li class="nav-item"><a href="{% url 'users:register' %}" class="nav-link">Регистрация</a></li>

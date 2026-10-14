@@ -7,7 +7,7 @@ from .forms import FeedbackForm, ProductForm
 from .models import Product
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     """Класс для отображения подробной информации о товаре product_details"""
 
     model = Product

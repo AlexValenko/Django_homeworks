@@ -20,11 +20,15 @@
                 {{ form.as_p}}
                 {{ form.non_field_errors }}
 
-                <div class="btn-group w-100">
-                    <button type="submit" class="btn btn-outline-primary flex-grow-1 me-2">
+
+                    <button type="submit" class="btn btn-primary">
                         Зарегистрироваться
                     </button>
-                </div>
+                                    <a href="{% url 'catalog:home' %}"
+                   class="btn btn-secondary">
+                    Отмена
+                </a>
+
 
             </form>
 
