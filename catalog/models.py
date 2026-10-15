@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 class Category(models.Model):
@@ -35,6 +36,7 @@ class Product(models.Model):
         verbose_name="Категория товара",
     )
     is_published = models.BooleanField(default=False, verbose_name="Статус публикации", help_text="Товар опубликован?")
+    owner = models.ForeignKey(to=User, on_delete=models.SET_NULL, related_name="products", null=True, blank=True, verbose_name="Владелец товара")
     price = models.DecimalField(
         max_digits=10, decimal_places=2, verbose_name="Цена товара", help_text="Цена товара", null=False, blank=False
     )

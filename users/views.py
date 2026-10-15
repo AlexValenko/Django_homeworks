@@ -8,7 +8,7 @@ from django.views.generic import UpdateView
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
 from .models import User
 
-from config.settings import EMAIL_HOST_USER
+from config.settings import EMAIL_HOST_USER, DEBUG
 
 
 class UserRegisterView(CreateView):
@@ -19,10 +19,13 @@ class UserRegisterView(CreateView):
     success_url = reverse_lazy("users:login")
 
     def form_valid(self, form):
-        response = super().form_valid(form)  # сохранит и подготовит редирект
-        user = self.object  # Django сам сохраняет объект в self.object после save()
+        response = super().form_valid(form)
+        user = self.object
         login(self.request, user)
-        self.send_welcome_email(user.email)
+
+        # Отключаем функционал отправки письма для режима DEBUG
+        if not DEBUG:
+            self.send_welcome_email(user.email)
         return response
 
     def send_welcome_email(self, user_email):
