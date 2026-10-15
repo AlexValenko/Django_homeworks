@@ -29,7 +29,7 @@
                     <div class="btn-group">
                         <a href="{%url 'catalog:product_details' product.pk%}"
                            class="btn btn-outline-primary w-100 rounded-3">Подробнее</a>
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated and product.owner == user or user.is_superuser %}
                         <a href="{%url 'catalog:edit_product' product.pk%}"
                            class="btn btn-outline-primary w-100 rounded-3">Редактировать</a>
                         {% endif %}

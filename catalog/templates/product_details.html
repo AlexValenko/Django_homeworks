@@ -34,19 +34,18 @@
                 <div class="btn-group w-100">
                     <a href="{% url 'catalog:home' %}"
                        class="btn btn-outline-primary flex-grow-1 me-2">На главную</a>
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated and product.owner == user %}
                     <a href="{% url 'catalog:edit_product' product.pk %}"
                        class="btn btn-outline-primary flex-grow-1 me-2">Редактировать</a>
                     {% endif %}
-                    {% if perms.catalog.delete_product %}
+                    {% if product.owner == user or user.is_superuser or perms.catalog.can_unpublish_product %}
                     <a href="{%url 'catalog:delete_product' product.pk%}"
                        class="btn btn-outline-danger flex-grow-1 me-2">Удалить</a>
                     {% endif %}
                 </div>
             </div>
 
-            <p class="card-text"><small class="text-body-secondary">Обновлено: {{product.updated_at|date:'d M
-                Y'}}</small></p>
+            <p class="card-text"><small class="text-body-secondary">Обновлено: {{product.updated_at|date:'d M Y'}}</small></p>
         </div>
 
     </div>

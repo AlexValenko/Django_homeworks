@@ -1,7 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .forms import FeedbackForm, ProductForm
 from .models import Product
@@ -28,10 +28,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        product = form.save()
-        user = self.request.user
-        product.owner = user
-        product.save()
+        form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
@@ -48,13 +45,23 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         kwargs["user"] = self.request.user
         return kwargs
 
+    def get_queryset(self):
+        return Product.objects.filter(owner=self.request.user)
 
-class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """Класс-контроллер для удаления продукта"""
 
     model = Product
     template_name = "product_confirm_delete.html"
-    permission_required = "catalog.delete_product"
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_superuser or user.has_perm("catalog.can_unpublish_product"):
+            return Product.objects.all()
+
+        return Product.objects.filter(owner=user)
 
     def get_success_url(self):
         return reverse_lazy("catalog:home")

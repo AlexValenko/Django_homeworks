@@ -1,14 +1,14 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import UpdateView
+from django.views.generic import CreateView, UpdateView
+
+from config.settings import DEBUG, EMAIL_HOST_USER
+
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
 from .models import User
-
-from config.settings import EMAIL_HOST_USER, DEBUG
 
 
 class UserRegisterView(CreateView):
