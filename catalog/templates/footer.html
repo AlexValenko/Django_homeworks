@@ -6,6 +6,8 @@
         </li>
         <li class="nav-item"><a href="{% url 'catalog:contacts' %}" class="nav-link px-2 text-body-secondary">О нас</a>
         </li>
+        <li class="nav-item"><a href="{% url 'blog:blog' %}" class="nav-link px-2 text-body-secondary">Блог</a>
+        </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
             <form method="post" action="{% url 'users:logout' %}">
