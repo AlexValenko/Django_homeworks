@@ -1,14 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import DeleteView, DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import CreateView
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
 from .forms import FeedbackForm, ProductForm
 from .models import Product
 
-
+@method_decorator(cache_page(60), name='dispatch')
 class ProductDetailView(LoginRequiredMixin, DetailView):
-    """Класс для отображения подробной информации о товаре product_details"""
+    """Класс для отображения подробной информации о товаре product_details
+    Страница закэширована на 60 секунд"""
 
     model = Product
     template_name = "product_details.html"
