@@ -1,4 +1,4 @@
-{% extends 'base_blog.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
     {% if object %}Удалить статью «{{ object.title }}»{% else %}Ошибка удаления{% endif %}
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="{% url 'blog:articles' %}" class="btn btn-secondary me-md-2 mb-2 mb-md-0">Отмена</a>
+                    <a href="{% url 'blog:blog' %}" class="btn btn-secondary me-md-2 mb-2 mb-md-0">Отмена</a>
                     <button type="submit" class="btn btn-danger">Удалить навсегда</button>
                 </div>
             </form>

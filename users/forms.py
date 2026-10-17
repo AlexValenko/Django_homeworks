@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.forms import ModelForm
 
 from users.models import User
 
@@ -56,3 +57,36 @@ class CustomAuthenticationForm(StyleMixin, AuthenticationForm):
         "username": "Введите Email",
         "password": "Введите пароль",
     }
+
+
+class CustomUserUpdateForm(StyleMixin, ModelForm):
+    """Форма редактирования профиля пользователя."""
+
+    field_styles = {
+        "email": "Введите Email",
+        "phone_number": "Введите номер телефона",
+        "avatar": "Загрузите изображение",
+        "user_country": "Введите название страны",
+        "first_name": "Введите имя",
+        "last_name": "Введите фамилию",
+    }
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "first_name",
+            "last_name",
+            "phone_number",
+            "user_country",
+            "avatar",
+        )
+
+        labels = {
+            "email": "Email",
+            "first_name": "Имя",
+            "last_name": "Фамилия",
+            "phone_number": "Номер телефона",
+            "user_country": "Страна",
+            "avatar": "Аватар",
+        }

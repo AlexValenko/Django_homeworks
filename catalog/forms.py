@@ -28,16 +28,20 @@ class FeedbackForm(forms.Form):
 
 
 class ProductForm(forms.ModelForm):
+    """Форма для создания/редактирования товара для продавца"""
+
     class Meta:
         model = Product
-        exclude = [
-            "created_at",
-            "updated_at",
-        ]
+        exclude = ["created_at", "updated_at", "owner"]
 
     # Стилизация
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, user=None, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
+
+        self.user = user
+
+        if not user or not (user.is_superuser or user.has_perm("catalog.can_unpublish_product")):
+            self.fields["is_published"].disabled = True
 
         self.fields["prod_name"].widget.attrs.update(
             {

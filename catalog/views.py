@@ -1,13 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import FeedbackForm, ProductForm
 from .models import Product
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     """Класс для отображения подробной информации о товаре product_details"""
 
     model = Product
@@ -22,6 +22,15 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = "product_form.html"
     success_url = reverse_lazy("catalog:home")
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """Класс для редактирования данных о товаре"""
@@ -31,12 +40,28 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "product_form.html"
     success_url = reverse_lazy("catalog:home")
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def get_queryset(self):
+        return Product.objects.filter(owner=self.request.user)
+
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """Класс-контроллер для удаления продукта"""
 
     model = Product
     template_name = "product_confirm_delete.html"
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_superuser or user.has_perm("catalog.can_unpublish_product"):
+            return Product.objects.all()
+
+        return Product.objects.filter(owner=user)
 
     def get_success_url(self):
         return reverse_lazy("catalog:home")
