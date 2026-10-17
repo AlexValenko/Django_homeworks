@@ -1,14 +1,20 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import DeleteView, DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import CreateView
 
 from .forms import FeedbackForm, ProductForm
-from .models import Product
+from .models import Category, Product
+from .services import get_products_by_category, get_products_list
 
 
+@method_decorator(cache_page(60), name="dispatch")
 class ProductDetailView(LoginRequiredMixin, DetailView):
-    """Класс для отображения подробной информации о товаре product_details"""
+    """Класс для отображения подробной информации о товаре product_details
+    Страница закэширована на 60 секунд"""
 
     model = Product
     template_name = "product_details.html"
@@ -32,7 +38,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Класс для редактирования данных о товаре"""
 
     model = Product
@@ -45,8 +51,11 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         kwargs["user"] = self.request.user
         return kwargs
 
-    def get_queryset(self):
-        return Product.objects.filter(owner=self.request.user)
+    def test_func(self):
+        product = self.get_object()
+        user = self.request.user
+
+        return product.owner == user or user.is_superuser or user.has_perm("catalog.can_unpublish_product")
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
@@ -72,8 +81,11 @@ class ProductListView(ListView):
 
     model = Product
     template_name = "products.html"
-    ordering = "category__category_name"
     paginate_by = 9
+
+    def get_queryset(self):
+        """Получает набор данных для отображения из кэша или из БД"""
+        return get_products_list()
 
 
 class HomeListView(ListView):
@@ -100,3 +112,25 @@ class ContactsFormView(FormView):
         message = form.cleaned_data["message"]
         print(f'Получена обратная связь от {name} ({phone}). Текст сообщения "{message}"')
         return super().form_valid(form)
+
+
+class ProductsByCategoryView(ListView):
+    """Отображает товары выбранной категории."""
+
+    model = Product
+    template_name = "products.html"
+    context_object_name = "products"
+    paginate_by = 9
+
+    def get_queryset(self):
+        return get_products_by_category(self.kwargs["category_id"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["category"] = get_object_or_404(
+            Category,
+            pk=self.kwargs["category_id"],
+        )
+
+        return context

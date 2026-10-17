@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         app_dir = Path(__file__).resolve().parent.parent.parent
         fixtures_dir = app_dir / "fixtures"
-        fixture_file = fixtures_dir / "moderators_with_users.json"
+        fixture_file = fixtures_dir / "moderators_group.json"
 
         if not fixture_file.exists():
             self.stderr.write(self.style.ERROR(f"Фикстура не найдена: {fixture_file}"))
