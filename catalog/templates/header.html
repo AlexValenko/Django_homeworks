@@ -3,8 +3,26 @@
 
     <span class="fs-4">Гео-товар</span> </a>
     <ul class="nav nav-pills">
-        <li class="nav-item"><a href="{% url 'catalog:home' %}" class="nav-link active" aria-current="page">Главная</a></li>
+        <li class="nav-item"><a href="{% url 'catalog:home' %}" class="nav-link active" aria-current="page">Главная</a>
+        </li>
         <li class="nav-item"><a href="{% url 'catalog:products' %}" class="nav-link">Товары</a></li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Категории
+            </a>
+            <ul class="dropdown-menu">
+                {% for category in categories %}
+                <li><a class="dropdown-item" href="{% url 'catalog:products_by_category' category.pk %}">
+                    {{category.category_name}}
+                </a></li>
+                {% empty %}
+                <li>
+                    <span class="dropdown-item-text">Категорий пока нет</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
         <li class="nav-item"><a href="{% url 'catalog:contacts' %}" class="nav-link">О нас</a></li>
         <li class="nav-item"><a href="{% url 'blog:blog' %}" class="nav-link">Блог</a></li>
 

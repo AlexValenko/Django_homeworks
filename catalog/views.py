@@ -3,11 +3,13 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import DeleteView, DetailView, FormView, ListView, UpdateView
 from django.views.generic.edit import CreateView
-from django.core.cache import cache
 from django.views.decorators.cache import cache_page
+from django.shortcuts import get_object_or_404
 
 from .forms import FeedbackForm, ProductForm
-from .models import Product
+from .models import Product, Category
+from .services import get_products_by_category, get_products_list
+
 
 @method_decorator(cache_page(60), name='dispatch')
 class ProductDetailView(LoginRequiredMixin, DetailView):
@@ -76,8 +78,11 @@ class ProductListView(ListView):
 
     model = Product
     template_name = "products.html"
-    ordering = "category__category_name"
     paginate_by = 9
+
+    def get_queryset(self):
+        """Получает набор данных для отображения из кэша или из БД"""
+        return get_products_list()
 
 
 class HomeListView(ListView):
@@ -104,3 +109,25 @@ class ContactsFormView(FormView):
         message = form.cleaned_data["message"]
         print(f'Получена обратная связь от {name} ({phone}). Текст сообщения "{message}"')
         return super().form_valid(form)
+
+
+class ProductsByCategoryView(ListView):
+    """Отображает товары выбранной категории."""
+
+    model = Product
+    template_name = "products.html"
+    context_object_name = "products"
+    paginate_by = 9
+
+    def get_queryset(self):
+        return get_products_by_category(self.kwargs["category_id"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["category"] = get_object_or_404(
+            Category,
+            pk=self.kwargs["category_id"],
+        )
+
+        return context
